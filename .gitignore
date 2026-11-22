@@ -1,0 +1,14 @@
+# Publish only the hub app and its workflow; keep everything else in this folder private.
+/*
+!/.gitignore
+!/.github/
+!/swgoh-hub/
+
+# Never publish cached game or player data; the cloud sync rebuilds it.
+swgoh-hub/cache/
+swgoh-hub/site/data.js
+swgoh-hub/site/data.js.tmp
+swgoh-hub/ally.txt
+swgoh-hub/cache-private.enc
+__pycache__/
+.DS_Store

@@ -1,0 +1,41 @@
+{
+  "_help": "Best Coliseum squads per boss. Taken from swgoh.gg Coliseum squad pages (top submitted runs, Era of Rogue One). Edit or ask Claude to refresh.",
+  "updated": "2026-11-21",
+  "source": "https://swgoh.gg/coliseum/",
+  "era": "ERA11_ROGUEONE",
+  "bosses": {
+    "TERENTATEK": {
+      "tip": "Its basic attack dispels your buffs and stacks Bleed (up to 6) that can't be resisted, then it gains Turn Meter. Bring healing and debuff cleansing, and burst it before Bleed stacks up.",
+      "teams": [
+        {"units": ["SAWGERRERA", "BAZEMALBUS", "CHIRRUTIMWE", "EDRIOTWOTUBES", "JYNERSO"], "best": "Tier 4 · 48.8%", "note": "Top run and most used"},
+        {"units": ["SAWGERRERA", "BAZEMALBUS", "CHIRRUTIMWE", "EDRIOTWOTUBES", "K2SO"], "best": "Tier 3 · 87.7%", "note": "K-2SO in place of Jyn"},
+        {"units": ["SAWGERRERA", "CASSIANANDOR", "EDRIOTWOTUBES", "JYNERSO", "K2SO"], "best": "Tier 3 · 36.6%", "note": "Cassian and K-2SO in place of Baze and Chirrut"}
+      ]
+    },
+    "DRYAX": {
+      "tip": "There is more than one Dryax. If one Dryax has at least 12% more or less Health than another, its basic inflicts Speed Down on you, so spread your damage evenly across them.",
+      "teams": [
+        {"units": ["SAWGERRERA", "BAZEMALBUS", "CHIRRUTIMWE", "EDRIOTWOTUBES", "JYNERSO"], "best": "Tier 4 · 34.6%", "note": "Top run"},
+        {"units": ["SAWGERRERA", "CASSIANANDOR", "CHIRRUTIMWE", "EDRIOTWOTUBES", "JYNERSO"], "best": "Tier 4 · 22.6%", "note": "Cassian in place of Baze"},
+        {"units": ["SAWGERRERA", "BAZEMALBUS", "CHIRRUTIMWE", "EDRIOTWOTUBES", "THIRDSISTER"], "best": "Tier 4 · 17.9%", "note": "Third Sister in place of Jyn"}
+      ]
+    },
+    "PIRATEATST": {
+      "tip": "Its basic inflicts 2 Damage Over Time effects, Offense Down and Health Down before it hits. Cleanse debuffs often and keep your Offense up.",
+      "teams": [
+        {"units": ["SAWGERRERA", "BAZEMALBUS", "CHIRRUTIMWE", "EDRIOTWOTUBES", "JYNERSO"], "best": "Tier 4 · 65%", "note": "Top run"},
+        {"units": ["MONMOTHMA", "CASSIANANDOR", "EDRIOTWOTUBES", "FULCRUMAHSOKA", "THIRDSISTER"], "best": "Tier 4 · 56.2%", "note": "Mon Mothma lead, very popular"},
+        {"units": ["MONMOTHMA", "EDRIOTWOTUBES", "FULCRUMAHSOKA", "PAO", "THIRDSISTER"], "best": "Tier 4 · 54.6%", "note": "Pao in place of Cassian"}
+      ]
+    },
+    "KRAYTDRAGON": {
+      "tip": "Its big all-enemy attack deals 5% less damage for every debuff on the Krayt (up to 50% less). Pile debuffs on it before that attack. Its basic stacks Damage Over Time on you.",
+      "teams": [
+        {"units": ["SAWGERRERA", "BAZEMALBUS", "CHIRRUTIMWE", "EDRIOTWOTUBES", "THIRDSISTER"], "best": "Tier 4 · 35.3%", "note": "Top run"},
+        {"units": ["MONMOTHMA", "BAZEMALBUS", "CHIRRUTIMWE", "EDRIOTWOTUBES", "PAO"], "best": "Tier 4 · 22.8%", "note": "Mon Mothma lead"},
+        {"units": ["SAWGERRERA", "BAZEMALBUS", "EDRIOTWOTUBES", "K2SO", "THIRDSISTER"], "best": "Tier 4 · 22.4%", "note": "K-2SO in place of Chirrut"}
+      ]
+    }
+  },
+  "topLevels": {"era": 55, "loaned": "32–35"}
+}

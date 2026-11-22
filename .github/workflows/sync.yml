@@ -1,0 +1,117 @@
+name: Sync SWGOH data
+
+# Pulls fresh game data through swgoh-comlink, rebuilds the site with your data encrypted, and
+# publishes it to GitHub Pages. Needs two repository secrets: HUB_ALLY (your ally code) and
+# HUB_PASSWORD (the site password). This repo is public, so nothing readable is ever published,
+# logged or cached: the site data and the saved sync history are both encrypted with HUB_PASSWORD.
+on:
+  schedule:
+    - cron: "17 */4 * * *"   # every 4 hours
+  workflow_dispatch:         # "Run workflow" button = Sync now
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    services:
+      comlink:
+        image: ghcr.io/swgoh-utils/swgoh-comlink:latest
+        env:
+          APP_NAME: swgohhub-${{ github.repository_owner }}
+          PORT: 3000
+        ports:
+          - 3000:3000
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check the password and ally code are set
+        env:
+          HUB_ALLY: ${{ secrets.HUB_ALLY }}
+          HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+        run: |
+          [ -n "$HUB_PASSWORD" ] || { echo "::error::Add the HUB_PASSWORD secret: Settings > Secrets and variables > Actions"; exit 1; }
+          [ -n "$HUB_ALLY" ] || { echo "::error::Add the HUB_ALLY secret: Settings > Secrets and variables > Actions"; exit 1; }
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install encryption library
+        run: python3 -m pip install --quiet "cryptography>=42"
+
+      - name: Restore saved data (public game data + encrypted sync history)
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            swgoh-hub/cache/game.json
+            swgoh-hub/cache-private.enc
+          key: hub-cache-${{ github.run_id }}
+          restore-keys: hub-cache-
+
+      - name: Unlock saved sync history
+        env:
+          HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+        run: |
+          f=swgoh-hub/cache-private.enc
+          [ -f "$f" ] || { echo "No saved history yet."; exit 0; }
+          mkdir -p swgoh-hub/cache
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -pass env:HUB_PASSWORD -in "$f" | tar -xz -C swgoh-hub/cache \
+            || echo "::warning::Couldn't unlock the saved history (password changed?). Starting a fresh history."
+
+      - name: Wait for comlink
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf -X POST localhost:3000/metadata -H 'Content-Type: application/json' -d '{}' >/dev/null && exit 0
+            sleep 3
+          done
+          echo "comlink did not start" && exit 1
+
+      - name: Build the locked site
+        env:
+          HUB_ALLY: ${{ secrets.HUB_ALLY }}
+          HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+          HUB_CLOUD_REPO: ${{ github.repository }}
+        run: python3 swgoh-hub/build.py
+
+      - name: Make sure nothing readable gets published
+        run: |
+          rm -f swgoh-hub/site/data.js.tmp
+          head -c 15 swgoh-hub/site/data.js | grep -qx 'window.HUB_ENC=' \
+            || { echo "::error::site/data.js is not encrypted, so it was not published."; exit 1; }
+
+      - name: Lock sync history for next time
+        env:
+          HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+        run: |
+          tar -cz -C swgoh-hub/cache history \
+            | openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -pass env:HUB_PASSWORD -out swgoh-hub/cache-private.enc
+
+      - name: Save data for next sync
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            swgoh-hub/cache/game.json
+            swgoh-hub/cache-private.enc
+          key: hub-cache-${{ github.run_id }}
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: swgoh-hub/site
+      - id: deploy
+        uses: actions/deploy-pages@v4

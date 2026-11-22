@@ -1,0 +1,16 @@
+{
+  "_help": "Targets: \"R7\" = Relic 7 (needs 7 stars), \"G12\" = Gear 12, \"5*\" = 5 stars (ships too). Order = priority.",
+  "goals": [
+    {"name": "Jabba the Hutt", "unlock": "JABBATHEHUTT", "note": "Galactic Legend journey", "req": {
+      "C3POLEGENDARY": "R7", "GAMORREANGUARD": "R3", "JAWA": "R3", "HUMANTHUG": "R3", "URORRURRR": "R4", "GREEDO": "R6",
+      "AURRA_SING": "R6", "UNDERCOVERLANDO": "R5", "KRRSANTAN": "R5", "FENNECSHAND": "R7", "HANSOLO": "R8",
+      "JEDIKNIGHTLUKE": "R7", "BOUSHH": "R5", "BOBAFETT": "R8", "OUTRIDER": "7*"}},
+    {"name": "Leviathan", "unlock": "CAPITALLEVIATHAN", "note": "Monthly event around the 20th", "req": {
+      "DARTHREVAN": "R9", "DARTHMALAK": "R9", "SITHTROOPER": "R7", "FOSITHTROOPER": "R7", "MAUL": "R7", "HK47": "R7",
+      "BASTILASHANDARK": "R7", "SITHASSASSIN": "R5", "50RT": "R5", "SITHSUPREMACYCLASS": "4*", "FURYCLASSINTERCEPTOR": "4*",
+      "TIEDAGGER": "4*", "SITHBOMBER": "4*", "SITHINFILTRATOR": "4*", "SITHFIGHTER": "4*", "EBONHAWK": "4*"}},
+    {"name": "The Mandalorian & Grogu", "unlock": "GLMANDOGROGU", "note": "Long project", "req": {
+      "JEDIKNIGHTLUKE": "R8", "THEMANDALORIANBESKARARMOR": "R10", "BOBAFETTSCION": "R9", "IG12": "R10",
+      "ADELPHIRANGER": "R7", "GOPHERANTS": "R7", "B1MERCDROID": "R7", "REMNANTSNOWCOMMANDER": "R8"}}
+  ]
+}
